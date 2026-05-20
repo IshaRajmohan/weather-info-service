@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'koushik694mper/weather-info-service'
+        IMAGE_NAME = 'isharajmohan/weather-info-service'
         IMAGE_TAG = '1.0'
         KUBECONFIG = credentials('kubeconfig-credentials')
     }
@@ -38,6 +38,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([file(credentialsId: 'kubeconfig-credentials', variable: 'KUBECONFIG')]) {
+                        sh 'kubectl apply -f secret.yaml'
                         sh 'kubectl apply -f deployment.yaml'
                         sh 'kubectl apply -f service.yaml'
                     }
@@ -55,5 +56,3 @@ pipeline {
         }
     }
 }
-
-// dockerhub-creds
